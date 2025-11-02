@@ -1,5 +1,7 @@
 # ConnectOnion Kotlin SDK
 
+[![GitHub](https://img.shields.io/badge/GitHub-openonion%2Fconnectonion--kotlin-blue?logo=github)](https://github.com/openonion/connectonion-kotlin)
+
 A Kotlin SDK for creating AI agents with behavior tracking, compatible with the ConnectOnion framework.
 
 ## Features
