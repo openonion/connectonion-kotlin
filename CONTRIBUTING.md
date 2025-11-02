@@ -32,7 +32,7 @@ cd connectonion-kotlin
 
 3. Add the upstream remote:
 ```bash
-git remote add upstream https://github.com/connectonion/connectonion-kotlin.git
+git remote add upstream https://github.com/openonion/connectonion-kotlin.git
 ```
 
 ## Development Setup
@@ -456,8 +456,8 @@ Before submitting a PR, ensure:
 ## Getting Help
 
 - **Discord**: [Join our community](https://discord.gg/4xfD9k8AUF)
-- **Issues**: [GitHub Issues](https://github.com/connectonion/connectonion-kotlin/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/connectonion/connectonion-kotlin/discussions)
+- **Issues**: [GitHub Issues](https://github.com/openonion/connectonion-kotlin/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/openonion/connectonion-kotlin/discussions)
 
 ## License
 

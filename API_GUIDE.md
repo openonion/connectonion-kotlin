@@ -490,6 +490,6 @@ Agent reached maximum iterations (10)
 
 ## Support
 
-- GitHub Issues: [Report bugs](https://github.com/connectonion/connectonion-kotlin/issues)
+- GitHub Issues: [Report bugs](https://github.com/openonion/connectonion-kotlin/issues)
 - Discord: [Join community](https://discord.gg/4xfD9k8AUF)
-- Documentation: [Full docs](https://github.com/connectonion/connectonion-kotlin)
+- Documentation: [Full docs](https://github.com/openonion/connectonion-kotlin)

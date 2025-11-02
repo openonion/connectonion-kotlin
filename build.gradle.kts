@@ -77,7 +77,7 @@ publishing {
             pom {
                 name.set("ConnectOnion Kotlin SDK")
                 description.set("A Kotlin SDK for creating AI agents with behavior tracking")
-                url.set("https://github.com/connectonion/connectonion-kotlin")
+                url.set("https://github.com/openonion/connectonion-kotlin")
                 
                 licenses {
                     license {
@@ -95,9 +95,9 @@ publishing {
                 }
                 
                 scm {
-                    connection.set("scm:git:git://github.com/connectonion/connectonion-kotlin.git")
-                    developerConnection.set("scm:git:ssh://github.com/connectonion/connectonion-kotlin.git")
-                    url.set("https://github.com/connectonion/connectonion-kotlin")
+                    connection.set("scm:git:git://github.com/openonion/connectonion-kotlin.git")
+                    developerConnection.set("scm:git:ssh://github.com/openonion/connectonion-kotlin.git")
+                    url.set("https://github.com/openonion/connectonion-kotlin")
                 }
             }
         }

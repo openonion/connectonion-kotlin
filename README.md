@@ -234,7 +234,7 @@ Generate JAR:
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](https://github.com/connectonion/connectonion-kotlin/blob/main/CONTRIBUTING.md) for details.
+Contributions are welcome! Please read our [Contributing Guide](https://github.com/openonion/connectonion-kotlin/blob/main/CONTRIBUTING.md) for details.
 
 ## License
 
