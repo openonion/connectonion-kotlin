@@ -19,7 +19,14 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 /**
- * OpenAI API implementation of LLM interface
+ * @purpose OpenAI API implementation of LLM interface - handles HTTP communication with OpenAI chat completions endpoint
+ * @llm-note
+ *   Dependencies: imports from [core/Tool.kt (FunctionSchema, ToolCall), llm/LLM.kt, io.ktor.*] | imported by [examples/*, core/Agent.kt] | tested by [core/AgentTest.kt via mocks]
+ *   Data flow: receives complete(messages, tools, temperature) → converts to OpenAIChatRequest → POST https://api.openai.com/v1/chat/completions → parses OpenAIChatResponse → returns LLMResponse
+ *   State/Effects: maintains HttpClient with CIO engine | makes HTTP POST to api.openai.com | Authorization: Bearer {apiKey} header | 60s timeout | logs requests
+ *   Integration: implements LLM.complete() | exposes close() for cleanup | instantiated in examples with Config.getOpenAIKey() | supports function calling via tools parameter
+ *   Performance: HttpClient with CIO engine | 60s request timeout | connection pooling via Ktor | ignoreUnknownKeys for forward compatibility
+ *   Errors: throws on HTTP errors (4xx, 5xx) | timeout after 60s | network failures propagate | invalid JSON responses fail parsing
  * @param apiKey OpenAI API key
  * @param model Model to use (default: gpt-4)
  * @param baseUrl Base URL for OpenAI API

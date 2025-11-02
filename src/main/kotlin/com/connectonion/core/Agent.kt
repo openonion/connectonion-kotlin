@@ -13,6 +13,15 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 
 /**
+ * @purpose Main orchestrator for AI agents - implements ReAct loop (Reasoning + Acting) with LLM and tools
+ * @llm-note
+ *   Dependencies: imports from [history/History.kt, llm/LLM.kt, core/Tool.kt] | imported by [examples/*] | tested by [core/AgentTest.kt]
+ *   Data flow: run(prompt) → adds to messages → iterative loop: LLM.complete() → parse toolCalls → executeToolCall() in parallel → add results to messages → repeat until done or maxIterations
+ *   State/Effects: mutates messages: MutableList<Message> (conversation context) | calls History.recordMessage(), History.recordToolCall(), History.save() | LLM makes HTTP calls
+ *   Integration: exposes run(prompt), clearMessages(), getMessages() | instantiated with (name, llm, tools, systemPrompt, temperature, maxIterations) | used in all examples
+ *   Performance: parallel tool execution via coroutineScope + async/awaitAll (line 269-275) | O(1) tool lookup via toolMap (line 101) | max 10 iterations default to prevent infinite loops
+ *   Errors: catches exceptions in executeToolCall() → converts to ToolResult(false, error) → sends to LLM for recovery | warns if maxIterations reached
+ *
  * A sophisticated AI agent that orchestrates conversations between users and language models,
  * enhanced with tool execution capabilities for performing real-world actions.
  * 

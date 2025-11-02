@@ -11,7 +11,15 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 /**
- * Collection of built-in tools commonly used by agents
+ * @purpose Collection of built-in tools commonly used by agents - provides file I/O, web fetch, shell, datetime capabilities
+ * @llm-note
+ *   Dependencies: imports from [core/Tool.kt, java.io.File, java.net.URL, java.time.*] | imported by [examples/AgentWithTools.kt, examples/TestRunner.kt] | tested by [tools/BuiltInToolsTest.kt]
+ *   Data flow: Singleton object exposing Tool implementations | Each tool receives parameters Map → validates → performs I/O → returns ToolResult
+ *   State/Effects: FileReaderTool reads filesystem | FileWriterTool writes to filesystem | WebFetchTool makes HTTP GET requests | ShellTool executes shell commands | DateTimeTool reads system time
+ *   Integration: exposes FileReaderTool(), FileWriterTool(), WebFetchTool(), DateTimeTool(), ShellTool() | used by Agent via tools parameter | implements Tool interface
+ *   Performance: synchronous I/O operations | no caching | shell commands inherit process timeout | web fetch no retry logic
+ *   Errors: returns ToolResult(false, error) for validation failures | catches IOException, SecurityException | shell command errors captured in stderr
+ *   ⚠️ Security: ShellTool executes arbitrary commands - validate input | FileWriterTool overwrites files without confirmation
  */
 object BuiltInTools {
     

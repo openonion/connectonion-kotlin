@@ -6,7 +6,14 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 /**
- * Abstract interface for Language Model implementations
+ * @purpose Abstract interface for Language Model implementations - defines contract for LLM providers
+ * @llm-note
+ *   Dependencies: imports from [core/Tool.kt (FunctionSchema, ToolCall)] | imported by [core/Agent.kt, llm/OpenAILLM.kt, examples/*] | tested by [core/AgentTest.kt]
+ *   Data flow: receives messages: List<Message>, tools: List<FunctionSchema>, temperature: Double → delegates to provider → returns LLMResponse{content, toolCalls, usage}
+ *   State/Effects: None (abstract interface, no state) | implementations make HTTP calls to LLM APIs
+ *   Integration: exposes complete() abstract method | implemented by OpenAILLM | used by Agent.run() for all LLM interactions
+ *   Performance: suspend fun for async execution | implementations should handle timeouts and retries
+ *   Errors: implementations throw on API errors | network failures | invalid responses
  */
 abstract class LLM {
     /**

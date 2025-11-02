@@ -5,8 +5,14 @@ import java.io.FileInputStream
 import java.util.Properties
 
 /**
- * Configuration loader for ConnectOnion
- * Loads configuration from environment variables and .env files
+ * @purpose Configuration loader for API keys and environment variables - searches .env files and system env
+ * @llm-note
+ *   Dependencies: imports from [java.io.*, java.util.Properties] | imported by [examples/BasicAgent.kt, examples/AgentWithTools.kt, examples/TestRunner.kt] | no direct tests
+ *   Data flow: init → loadEnvFile() searches [.env, ../.env, ../../.env] → loads to Properties | get(key) checks System.getenv() → properties → defaultValue
+ *   State/Effects: mutates internal properties: Properties on init | reads filesystem for .env files | prints to console on successful load
+ *   Integration: exposes get(key, default), getRequired(key), has(key), getOpenAIKey() | used by examples for Config.getOpenAIKey() | Singleton object pattern
+ *   Performance: loads .env once during init | O(1) lookups via Properties | searches up to 3 parent directories
+ *   Errors: throws ConfigurationException if required key missing | prints warning if .env file unreadable | helpful error message in getOpenAIKey()
  */
 object Config {
     private val properties = Properties()

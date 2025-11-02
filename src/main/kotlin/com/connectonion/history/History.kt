@@ -12,8 +12,14 @@ import java.util.UUID
 private val logger = KotlinLogging.logger {}
 
 /**
- * Manages behavior tracking and persistence for agents
- * @param agentName Name of the agent to track
+ * @purpose Manages behavior tracking and persistence for agents - logs all messages and tool calls to JSON
+ * @llm-note
+ *   Dependencies: imports from [llm/LLM.kt (MessageRole), kotlinx.serialization.*, java.io.File] | imported by [core/Agent.kt] | no direct tests
+ *   Data flow: Agent calls recordMessage(role, content) or recordToolCall() → adds BehaviorEntry to behaviors list → save() writes to ~/.connectonion/agents/{agentName}/behavior.json
+ *   State/Effects: mutates behaviors: MutableList<BehaviorEntry> | creates ~/.connectonion/agents/{agentName}/ directory | writes behavior.json file | loads existing history on init
+ *   Integration: exposes recordMessage(), recordToolCall(), save(), getBehaviors(), clear() | used by Agent.run() to track all interactions | instantiated once per Agent
+ *   Performance: loads entire history into memory on init | appends to list in-memory | writes full JSON on save() | no cleanup or rotation
+ *   Errors: mkdirs() for directory creation | catches JSON parse errors on loadExistingHistory() | File I/O errors logged but not thrown
  */
 class History(private val agentName: String) {
     private val historyDir = File(System.getProperty("user.home"), ".connectonion/agents/$agentName")

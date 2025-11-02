@@ -5,31 +5,35 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 /**
- * Abstract base class for all agent tools.
- * 
- * Tools are reusable functions that agents can execute during conversations.
- * They enable agents to perform actions beyond just generating text responses.
- * 
+ * @purpose Abstract base class for all agent tools - enables agents to perform actions beyond text generation
+ * @llm-note
+ *   Dependencies: imports from [kotlinx.serialization.*] | imported by [core/Agent.kt, tools/BuiltInTools.kt, examples/*] | tested by [core/ToolTest.kt, tools/BuiltInToolsTest.kt]
+ *   Data flow: receives parameters: Map<String, Any?> from Agent.executeToolCall() → validates → executes logic → returns ToolResult{success, output/error}
+ *   State/Effects: None in abstract class | implementations may read/write files, call APIs, modify external state
+ *   Integration: exposes run() and toFunctionSchema() abstract methods | used by Agent via toolMap lookup | FunctionSchema sent to LLM for function calling
+ *   Performance: suspend fun for async I/O | implementations should handle timeouts | Agent executes tools in parallel via coroutineScope
+ *   Errors: implementations return ToolResult(false, error=msg) for failures | Agent catches exceptions and converts to ToolResult
+ *
  * ## Creating a Custom Tool
- * 
+ *
  * To create a custom tool, extend this class and implement the required methods:
- * 
+ *
  * ```kotlin
  * class MyCustomTool : Tool() {
  *     override val name = "my_tool"
  *     override val description = "Does something useful"
- *     
+ *
  *     override suspend fun run(parameters: Map<String, Any?>): ToolResult {
  *         // Your tool logic here
  *         return ToolResult(success = true, output = "Result")
  *     }
- *     
+ *
  *     override fun toFunctionSchema(): FunctionSchema {
  *         // Define parameter schema for OpenAI function calling
  *     }
  * }
  * ```
- * 
+ *
  * @see FunctionTool for a simpler way to create tools from functions
  * @see BuiltInTools for examples of pre-built tools
  */
